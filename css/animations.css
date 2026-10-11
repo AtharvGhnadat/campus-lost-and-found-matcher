@@ -1,0 +1,325 @@
+/* ==========================================================================
+   Campus Lost-and-Found — Premium Micro-Animations
+   
+   Philosophy:
+   • Every animation has a PURPOSE — it guides attention, not distracts
+   • Duration sweet spot: 300ms–600ms. Nothing over 700ms.
+   • Easing: cubic-bezier(0.16, 1, 0.3, 1) — fast out, smooth settle
+   • Stagger: 60ms between siblings — feels orchestrated, not chaotic
+   • Respect reduced-motion preferences
+   ========================================================================== */
+
+/* ============================================================
+   KEYFRAMES — Core motion primitives
+   ============================================================ */
+
+/* Fade + rise — primary entrance */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Fade + drop — for dropdowns / nav drawer */
+@keyframes fadeDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Scale in — for cards, badges, chips */
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.93);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Fade in — pure opacity, no movement */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Shimmer sweep — skeleton loading */
+@keyframes shimmer {
+  0%   { background-position: -600px 0; }
+  100% { background-position:  600px 0; }
+}
+
+/* Pulse glow — for CTA button / avatar indicator */
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(79, 70, 229, 0.35); }
+  50%       { box-shadow: 0 0 0 6px rgba(79, 70, 229, 0); }
+}
+
+/* Pulse green — online dot */
+@keyframes pulseGreen {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(13, 148, 136, 0.4); }
+  50%       { box-shadow: 0 0 0 5px rgba(13, 148, 136, 0); }
+}
+
+/* Float — decorative hero blobs */
+@keyframes blobFloat {
+  0%   { transform: translate(0px, 0px) scale(1); }
+  100% { transform: translate(18px, 14px) scale(1.07); }
+}
+
+/* Underline slide — nav active indicator spring */
+@keyframes underlineSlide {
+  from { transform: scaleX(0); opacity: 0; }
+  to   { transform: scaleX(1); opacity: 1; }
+}
+
+/* Counter tick — numbers rolling up */
+@keyframes counterFade {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ============================================================
+   ENTRANCE UTILITY CLASSES
+   Applied by JS IntersectionObserver (.reveal-*) or directly
+   ============================================================ */
+
+/* Base reveal state — hidden until triggered */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity  0.55s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-scale {
+  opacity: 0;
+  transform: scale(0.95);
+  transition:
+    opacity  0.45s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal-scale.is-visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Stagger delays — set via --delay CSS var in JS */
+.reveal,
+.reveal-scale {
+  transition-delay: var(--delay, 0ms);
+}
+
+/* ============================================================
+   HERO — Staggered entrance on load
+   ============================================================ */
+.hero-tagline {
+  animation: fadeUp 0.55s cubic-bezier(0.16, 1, 0.3, 1) 0.05s both;
+}
+.hero-heading {
+  animation: fadeUp 0.60s cubic-bezier(0.16, 1, 0.3, 1) 0.13s both;
+}
+.hero-subheading {
+  animation: fadeUp 0.55s cubic-bezier(0.16, 1, 0.3, 1) 0.22s both;
+}
+.decision-cards-grid {
+  animation: fadeUp 0.60s cubic-bezier(0.16, 1, 0.3, 1) 0.30s both;
+}
+.search-container-center {
+  animation: fadeUp 0.50s cubic-bezier(0.16, 1, 0.3, 1) 0.40s both;
+}
+
+/* Each decision card springs in with slight stagger */
+.decision-card:nth-child(1) {
+  animation: scaleIn 0.50s cubic-bezier(0.34, 1.56, 0.64, 1) 0.32s both;
+}
+.decision-card:nth-child(2) {
+  animation: scaleIn 0.50s cubic-bezier(0.34, 1.56, 0.64, 1) 0.42s both;
+}
+
+/* Hero blob drift (override from styles.css for consistency) */
+.hero-blob-1 { animation: blobFloat 12s ease-in-out infinite alternate; }
+.hero-blob-2 { animation: blobFloat 15s ease-in-out infinite alternate-reverse; }
+.hero-blob-3 { animation: blobFloat 18s ease-in-out infinite alternate; }
+
+/* ============================================================
+   NAVBAR — Entrance + live interactions
+   ============================================================ */
+
+/* Header slides down on load */
+.site-header {
+  animation: fadeDown 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Logo — subtle hover lift already in CSS, add transition */
+.brand-logo-frame {
+  transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1),
+              box-shadow 0.22s ease;
+}
+
+/* CTA button pulse on first load (draws attention once) */
+.nav-cta-btn {
+  animation: pulseGlow 2.5s ease-in-out 1.2s 2;
+}
+
+/* Online indicator pulses continuously */
+.user-avatar-dot {
+  animation: pulseGreen 2.2s ease-in-out infinite;
+}
+
+/* ============================================================
+   STAT CARDS — count-up animation class
+   ============================================================ */
+.stat-value {
+  animation: counterFade 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-play-state: paused; /* JS triggers it */
+}
+.stat-card.is-visible .stat-value {
+  animation-play-state: running;
+}
+
+/* ============================================================
+   GUIDE STEP ITEMS — staggered entrance
+   ============================================================ */
+.guide-step-item {
+  transition:
+    background  0.20s ease,
+    border-color 0.20s ease,
+    transform   0.28s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow  0.20s ease;
+}
+
+/* ============================================================
+   CATEGORY CARDS — spring scale on hover
+   ============================================================ */
+.category-icon-card {
+  transition:
+    border-color 0.20s ease,
+    transform    0.28s cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow   0.22s ease;
+}
+.category-icon-card:hover .category-emoji {
+  display: inline-block;
+  animation: scaleIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+/* ============================================================
+   ITEM CARDS — smooth lift
+   ============================================================ */
+.card {
+  transition:
+    transform    0.26s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow   0.26s ease,
+    border-color 0.20s ease;
+}
+/* Image zoom already handled in styles.css */
+
+/* ============================================================
+   BUTTONS — micro-press + hover
+   ============================================================ */
+.btn,
+.nav-cta-btn,
+.decision-btn,
+.btn-search {
+  transition:
+    background    0.18s ease,
+    box-shadow    0.22s ease,
+    transform     0.16s cubic-bezier(0.34, 1.56, 0.64, 1),
+    border-color  0.18s ease,
+    color         0.18s ease;
+}
+.btn:active,
+.nav-cta-btn:active,
+.decision-btn:active {
+  transform: scale(0.97) !important;
+  transition-duration: 0.08s;
+}
+
+/* ============================================================
+   SEARCH BOX — width expand on focus
+   ============================================================ */
+.search-box-elevated {
+  transition:
+    border-color 0.20s ease,
+    box-shadow   0.22s ease,
+    background   0.20s ease;
+}
+
+/* ============================================================
+   FILTER PILLS — smooth tab switch
+   ============================================================ */
+.filter-pill {
+  transition:
+    background   0.18s ease,
+    color        0.18s ease,
+    box-shadow   0.18s ease;
+}
+
+/* ============================================================
+   MOBILE NAV DRAWER — smooth open/close
+   ============================================================ */
+@media (max-width: 767px) {
+  .main-nav {
+    /* Closed state */
+    opacity: 0;
+    transform: translateY(-8px);
+    transition:
+      opacity   0.22s ease,
+      transform 0.26s cubic-bezier(0.16, 1, 0.3, 1),
+      display   0s linear 0.26s; /* delay display:none until after transition */
+    pointer-events: none;
+  }
+  .main-nav.open {
+    opacity: 1;
+    transform: translateY(0);
+    transition:
+      opacity   0.22s ease,
+      transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+    pointer-events: auto;
+  }
+}
+
+/* ============================================================
+   SKELETON LOADING — shimmer for async content
+   ============================================================ */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--subtle) 0px,
+    var(--border) 200px,
+    var(--subtle) 400px
+  );
+  background-size: 600px 100%;
+  animation: shimmer 1.4s ease-in-out infinite;
+  border-radius: var(--r-sm);
+}
+
+/* ============================================================
+   REDUCE MOTION — respect user preference
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

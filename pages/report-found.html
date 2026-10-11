@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Report Found Item — Campus Lost-and-Found Matcher</title>
+  <meta name="description" content="Report an article found on campus. Help return belongings safely without exposing personal phone numbers.">
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body>
+
+  <!-- Site Header -->
+  <header class="site-header">
+    <div class="container header-container">
+      <a href="../index.html" class="brand-wrapper">
+        <div class="brand-logo-frame">
+          <img src="../assets/icons/logo.svg" alt="Campus Emblem">
+        </div>
+        <div class="brand-info">
+          <span class="brand-title">Campus Lost &amp; Found</span>
+          <span class="brand-subtitle">MITAOE • Software Prototyping</span>
+        </div>
+      </a>
+
+      <nav class="main-nav">
+        <ul class="nav-links">
+          <li><a href="../index.html" class="nav-link">Home</a></li>
+          <li><a href="browse.html" class="nav-link">Browse Items</a></li>
+          <li><a href="matches.html" class="nav-link">Possible Matches</a></li>
+          <li><a href="report-lost.html" class="nav-link">Report Lost</a></li>
+          <li><a href="report-found.html" class="nav-link active">Report Found</a></li>
+          <li><a href="my-reports.html" class="nav-link">My Activity</a></li>
+          <li><a href="admin.html" class="nav-link">Admin Portal</a></li>
+        </ul>
+      </nav>
+
+      <div class="header-actions">
+        <div class="user-badge" title="Active Student Demo Profile">
+          <span class="user-badge-indicator"></span>
+          <span>Aarav (DSY-42)</span>
+        </div>
+        <button class="mobile-nav-toggle" aria-label="Toggle navigation menu">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <div class="container">
+      
+      <!-- Breadcrumb -->
+      <nav style="font-size:0.88rem; color:var(--color-struct-text-muted); margin-bottom:1.5rem;" aria-label="Breadcrumb">
+        <a href="../index.html">Home</a> &gt; <span>Report Found Item</span>
+      </nav>
+
+      <div class="form-card">
+        <div class="form-header">
+          <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.5rem;">
+            <span class="badge badge-found">🟢 STEP 1: REPORT FOUND ITEM</span>
+          </div>
+          <h1>I Found an Item on Campus</h1>
+          <p>Thank you for your honesty! Record what you found so the rightful owner can verify it.</p>
+        </div>
+
+        <!-- Privacy Shield Banner -->
+        <div class="alert alert-info">
+          <div>
+            <strong>🔒 Complete Privacy Protection:</strong> You do <em>not</em> have to post your personal phone number or WhatsApp. Hand the item to the security desk, library reception, or lab attendant, and mention the location below.
+          </div>
+        </div>
+
+        <div id="form-success-box" class="alert alert-success" style="display:none;">
+          <div>
+            <strong>✓ Found Item Logged Successfully!</strong>
+            <p style="margin: 0.25rem 0 0.5rem 0;">The item has been posted. The real owner can now locate it and verify their claim with campus security.</p>
+            <div style="display:flex; gap:0.5rem;">
+              <a href="browse.html?type=found" class="btn btn-primary btn-sm">View in Catalog</a>
+              <a href="matches.html" class="btn btn-secondary btn-sm">Check Suggested Matches</a>
+            </div>
+          </div>
+        </div>
+
+        <form id="report-found-form" novalidate>
+          <div class="form-grid">
+            
+            <!-- Quick Category Pill Picker -->
+            <div class="form-group full-width">
+              <label class="form-label">
+                Tap to Choose Category Quickly <span class="required-mark">*</span>
+              </label>
+              <div style="display:flex; flex-wrap:wrap; gap:0.5rem; margin-top:0.25rem;">
+                <button type="button" class="btn btn-secondary btn-sm" onclick="selectQuickCategory('Wallets & Bags')">💼 Wallet / Bag</button>
+                <button type="button" class="btn btn-secondary btn-sm" onclick="selectQuickCategory('Electronics & Gadgets')">🎧 Earphones / Device</button>
+                <button type="button" class="btn btn-secondary btn-sm" onclick="selectQuickCategory('ID & Cards')">🪪 College ID Card</button>
+                <button type="button" class="btn btn-secondary btn-sm" onclick="selectQuickCategory('Keys & Locks')">🔑 Keys & Keychain</button>
+                <button type="button" class="btn btn-secondary btn-sm" onclick="selectQuickCategory('Personal Accessories')">🧴 Water Bottle</button>
+                <button type="button" class="btn btn-secondary btn-sm" onclick="selectQuickCategory('Stationery & Books')">📚 Book / Notes</button>
+              </div>
+            </div>
+
+            <!-- Item Name -->
+            <div class="form-group full-width">
+              <label class="form-label" for="item-title">
+                What Item Did You Find? <span class="required-mark">*</span>
+              </label>
+              <input type="text" id="item-title" name="item-title" class="form-control" placeholder="e.g. Black Leather Bi-fold Wallet, Milton Thermosteel Water Bottle, OnePlus Earphones" required minlength="3">
+              <span class="invalid-feedback">Please enter the item name (at least 3 characters).</span>
+            </div>
+
+            <!-- Category Dropdown -->
+            <div class="form-group">
+              <label class="form-label" for="item-category">
+                Item Category <span class="required-mark">*</span>
+              </label>
+              <select id="item-category" name="item-category" class="form-control" required>
+                <option value="">-- Choose Category --</option>
+                <option value="Wallets & Bags">Wallets &amp; Bags</option>
+                <option value="Electronics & Gadgets">Electronics &amp; Gadgets</option>
+                <option value="ID & Cards">ID &amp; Cards</option>
+                <option value="Keys & Locks">Keys &amp; Locks</option>
+                <option value="Personal Accessories">Personal Accessories (Bottles, Umbrellas)</option>
+                <option value="Stationery & Books">Stationery &amp; Books</option>
+                <option value="Other Campus Items">Other Campus Items</option>
+              </select>
+              <span class="invalid-feedback">Please choose a category.</span>
+            </div>
+
+            <!-- Campus Location Found -->
+            <div class="form-group">
+              <label class="form-label" for="item-location">
+                Where Did You Find It? <span class="required-mark">*</span>
+              </label>
+              <select id="item-location" name="item-location" class="form-control" required>
+                <option value="">-- Select Campus Zone --</option>
+                <option value="Central Canteen">Central Canteen</option>
+                <option value="Central Library">Central Library (Reading Hall)</option>
+                <option value="Computer Center (Lab 3)">Computer Center (Lab 3)</option>
+                <option value="Academic Block A (Classrooms)">Academic Block A (Classrooms)</option>
+                <option value="Mechanical Workshop">Mechanical Workshop</option>
+                <option value="Sports Ground">Sports Ground / Basketball Court</option>
+                <option value="Campus Main Gate / Parking">Campus Main Gate / Parking</option>
+                <option value="Admin Block Reception">Admin Block Reception</option>
+              </select>
+              <span class="invalid-feedback">Please select where you found it.</span>
+            </div>
+
+            <!-- Date Found -->
+            <div class="form-group">
+              <label class="form-label" for="item-date">
+                When Did You Find It? <span class="required-mark">*</span>
+              </label>
+              <input type="date" id="item-date" name="item-date" class="form-control" required>
+              <span class="invalid-feedback">Please pick a valid date.</span>
+            </div>
+
+            <!-- Safe Handover Location -->
+            <div class="form-group">
+              <label class="form-label" for="item-safe-location">
+                Where is it Deposited / Safe Handover Spot? <span class="required-mark">*</span>
+              </label>
+              <input type="text" id="item-safe-location" name="item-safe-location" class="form-control" placeholder="e.g. Security Cabin Gate 1, Canteen Counter, Library Reception Desk" required>
+              <span class="form-hint">Where should the owner go to collect their item?</span>
+              <span class="invalid-feedback">Please tell where the item is kept for safety.</span>
+            </div>
+
+            <!-- Description -->
+            <div class="form-group full-width">
+              <label class="form-label" for="item-description">
+                Public Description <span class="required-mark">*</span>
+              </label>
+              <textarea id="item-description" name="item-description" class="form-control" placeholder="Describe the item from the outside (color, brand). TIP: Do NOT mention private items inside (like cash amount or secret wallpaper) so the real owner can prove it!" required minlength="10"></textarea>
+              <span class="form-hint">Protect secret identifiers so only the real owner can verify ownership.</span>
+              <span class="invalid-feedback">Please provide a brief description (at least 10 letters).</span>
+            </div>
+
+            <!-- Image Upload with Preview -->
+            <div class="form-group full-width">
+              <label class="form-label">
+                Upload Photo of Found Item <span style="font-weight:normal; font-size:0.82rem; color:var(--color-struct-text-muted);">(Optional — Max 2MB)</span>
+              </label>
+              <div class="image-upload-zone">
+                <input type="file" id="item-image" accept="image/*">
+                <div style="font-size:2rem; margin-bottom:0.25rem;">📸</div>
+                <div style="font-size:1rem; font-weight:700; color:var(--color-action-found);">Tap to Upload Photo of Found Article</div>
+                <div style="font-size:0.85rem; color:var(--color-struct-text-muted); margin-top:0.2rem;">PNG, JPG, or WEBP. Fallback category icons are provided if omitted.</div>
+              </div>
+              <div id="upload-preview-container"></div>
+            </div>
+
+          </div>
+
+          <div style="margin-top: 2rem; display: flex; justify-content: flex-end; gap: 0.75rem;">
+            <a href="../index.html" class="btn btn-secondary">Cancel</a>
+            <button type="submit" class="btn btn-found btn-lg">Submit Found Item Report</button>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-bottom" style="border:none; padding:1.5rem 0;">
+      <div>&copy; 2026 Campus Lost-and-Found Matcher • MITAOE DSY SP Practical</div>
+      <button class="btn btn-secondary btn-sm action-reset-demo">Reset Demo Data</button>
+    </div>
+  </footer>
+
+  <script src="../js/storage.js"></script>
+  <script src="../js/matching.js"></script>
+  <script src="../js/reports.js"></script>
+  <script src="../js/claims.js"></script>
+  <script src="../js/admin.js"></script>
+  <script src="../js/app.js"></script>
+  <script>
+    function selectQuickCategory(val) {
+      const select = document.getElementById('item-category');
+      if (select) {
+        select.value = val;
+        window.App.showToast(`Selected category: ${val}`, 'info');
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      window.ReportsController.initReportFoundForm();
+    });
+  </script>
+</body>
+</html>

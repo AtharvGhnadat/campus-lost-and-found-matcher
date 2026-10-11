@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Browse Campus Reports — Campus Lost-and-Found Matcher</title>
+  <meta name="description" content="Search and filter all reported lost and found articles across college campus premises.">
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body>
+
+  <!-- Site Header -->
+  <header class="site-header">
+    <div class="container header-container">
+      <a href="../index.html" class="brand-wrapper">
+        <div class="brand-logo-frame">
+          <img src="../assets/icons/logo.svg" alt="Campus Emblem">
+        </div>
+        <div class="brand-info">
+          <span class="brand-title">Campus Lost &amp; Found</span>
+          <span class="brand-subtitle">MITAOE • Software Prototyping</span>
+        </div>
+      </a>
+
+      <nav class="main-nav">
+        <ul class="nav-links">
+          <li><a href="../index.html" class="nav-link">Home</a></li>
+          <li><a href="browse.html" class="nav-link active">Browse Items</a></li>
+          <li><a href="matches.html" class="nav-link">Possible Matches</a></li>
+          <li><a href="report-lost.html" class="nav-link">Report Lost</a></li>
+          <li><a href="report-found.html" class="nav-link">Report Found</a></li>
+          <li><a href="my-reports.html" class="nav-link">My Activity</a></li>
+          <li><a href="admin.html" class="nav-link">Admin Portal</a></li>
+        </ul>
+      </nav>
+
+      <div class="header-actions">
+        <div class="user-badge" title="Active Student Demo Profile">
+          <span class="user-badge-indicator"></span>
+          <span>Aarav (DSY-42)</span>
+        </div>
+        <button class="mobile-nav-toggle" aria-label="Toggle navigation menu">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <div class="container">
+      
+      <!-- Breadcrumb -->
+      <nav style="font-size:0.88rem; color:var(--color-struct-text-muted); margin-bottom:1.5rem;" aria-label="Breadcrumb">
+        <a href="../index.html">Home</a> &gt; <span>Campus Directory</span>
+      </nav>
+
+      <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:1.5rem; flex-wrap:wrap; gap:1rem;">
+        <div>
+          <h1 style="font-size:1.85rem; color:var(--color-struct-navy); font-weight:800;">Campus Reports Catalog</h1>
+          <p style="font-size:0.98rem; color:var(--color-struct-text-muted); margin-top:0.25rem;">
+            Find any article reported lost or found across college premises with live filtering.
+          </p>
+        </div>
+        <div style="display:flex; gap:0.5rem;">
+          <a href="report-lost.html" class="btn btn-lost btn-sm">+ Report Lost</a>
+          <a href="report-found.html" class="btn btn-found btn-sm">+ Report Found</a>
+        </div>
+      </div>
+
+      <!-- Multi-Criteria Filter Bar (60-30-10 Designed) -->
+      <div class="filter-bar">
+        <div class="filter-row">
+          <!-- Live Search Input -->
+          <div class="search-box-wrapper">
+            <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input type="text" id="search-input" class="form-control" placeholder="Type item name (e.g. wallet, bottle, earphones, keys)...">
+          </div>
+
+          <!-- Type Filter Pills -->
+          <div class="filter-pill-group">
+            <button class="filter-pill active" data-type-filter="all">All Reports</button>
+            <button class="filter-pill" data-type-filter="lost" style="color:var(--color-action-lost);">🔴 Lost Only</button>
+            <button class="filter-pill" data-type-filter="found" style="color:var(--color-action-found);">🟢 Found Only</button>
+          </div>
+        </div>
+
+        <div class="filter-row" style="border-top:2px solid var(--color-dominant-border); padding-top:0.85rem;">
+          <!-- Category Filter -->
+          <div style="flex:1; min-width:180px;">
+            <select id="filter-category" class="form-control" style="font-size:0.92rem;">
+              <option value="all">📂 All Categories</option>
+              <option value="Wallets & Bags">💼 Wallets &amp; Bags</option>
+              <option value="Electronics & Gadgets">🎧 Electronics &amp; Gadgets</option>
+              <option value="ID & Cards">🪪 Student ID &amp; Cards</option>
+              <option value="Keys & Locks">🔑 Keys &amp; Locks</option>
+              <option value="Personal Accessories">🧴 Bottles &amp; Accessories</option>
+              <option value="Stationery & Books">📚 Books &amp; Stationery</option>
+            </select>
+          </div>
+
+          <!-- Location Filter -->
+          <div style="flex:1; min-width:180px;">
+            <select id="filter-location" class="form-control" style="font-size:0.92rem;">
+              <option value="all">📍 All Campus Locations</option>
+              <option value="Central Canteen">Central Canteen</option>
+              <option value="Central Library">Central Library</option>
+              <option value="Computer Center (Lab 3)">Computer Center (Lab 3)</option>
+              <option value="Academic Block A (Classrooms)">Academic Block A (Classrooms)</option>
+              <option value="Mechanical Workshop">Mechanical Workshop</option>
+              <option value="Sports Ground">Sports Ground</option>
+            </select>
+          </div>
+
+          <!-- Status Filter -->
+          <div style="flex:1; min-width:140px;">
+            <select id="filter-status" class="form-control" style="font-size:0.92rem;">
+              <option value="all">🏷️ All Statuses</option>
+              <option value="Open">Open Only</option>
+              <option value="Claimed">Claimed</option>
+              <option value="Resolved">Resolved</option>
+            </select>
+          </div>
+
+          <button class="btn btn-secondary btn-sm" onclick="ReportsController.resetCatalogFilters()">Reset All Filters</button>
+        </div>
+      </div>
+
+      <!-- Result Counter -->
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem;">
+        <span id="results-count" style="font-size:0.95rem; font-weight:700; color:var(--color-struct-navy);">Showing reports...</span>
+        <span style="font-size:0.86rem; color:var(--color-struct-text-muted);">Tap 'View Details' on any card to see custody spot or submit a claim</span>
+      </div>
+
+      <!-- Catalog Cards Grid -->
+      <div class="item-grid" id="catalog-grid">
+        <!-- Rendered dynamically via js/reports.js -->
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-bottom" style="border:none; padding:1.5rem 0;">
+      <div>&copy; 2026 Campus Lost-and-Found Matcher • MITAOE DSY SP Practical</div>
+      <button class="btn btn-secondary btn-sm action-reset-demo">Reset Demo Data</button>
+    </div>
+  </footer>
+
+  <script src="../js/storage.js"></script>
+  <script src="../js/matching.js"></script>
+  <script src="../js/reports.js"></script>
+  <script src="../js/claims.js"></script>
+  <script src="../js/admin.js"></script>
+  <script src="../js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const catParam = urlParams.get('category');
+      const locParam = urlParams.get('location');
+
+      if (catParam) {
+        const catSelect = document.getElementById('filter-category');
+        if (catSelect) catSelect.value = catParam;
+      }
+      if (locParam) {
+        const locSelect = document.getElementById('filter-location');
+        if (locSelect) locSelect.value = locParam;
+      }
+
+      window.ReportsController.initBrowseCatalog();
+    });
+  </script>
+</body>
+</html>

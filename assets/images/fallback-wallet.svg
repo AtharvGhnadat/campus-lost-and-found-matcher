@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 200" width="320" height="200" fill="none">
+  <rect width="320" height="200" fill="#f1f5f9"/>
+  <rect x="70" y="55" width="180" height="100" rx="14" fill="#0f2b48" stroke="#1e293b" stroke-width="2"/>
+  <path d="M70 75H250" stroke="#334155" stroke-width="2"/>
+  <path d="M190 90H250V125H190C184.477 125 180 120.523 180 115V100C180 94.4772 184.477 90 190 90Z" fill="#1e293b"/>
+  <circle cx="210" cy="107" r="5" fill="#38bdf8"/>
+  <text x="160" y="175" fill="#64748b" font-family="system-ui, sans-serif" font-size="12" font-weight="600" text-anchor="middle">WALLET / PURSE</text>
+</svg>

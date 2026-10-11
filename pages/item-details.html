@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Item Details & Claim Request — Campus Lost-and-Found Matcher</title>
+  <meta name="description" content="View full item details and submit a verified ownership claim request.">
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body>
+
+  <!-- Site Header -->
+  <header class="site-header">
+    <div class="container header-container">
+      <a href="../index.html" class="brand-wrapper">
+        <div class="brand-logo-frame">
+          <img src="../assets/icons/logo.svg" alt="Campus Emblem">
+        </div>
+        <div class="brand-info">
+          <span class="brand-title">Campus Lost &amp; Found</span>
+          <span class="brand-subtitle">MITAOE • Software Prototyping</span>
+        </div>
+      </a>
+
+      <nav class="main-nav">
+        <ul class="nav-links">
+          <li><a href="../index.html" class="nav-link">Home</a></li>
+          <li><a href="browse.html" class="nav-link">Browse Items</a></li>
+          <li><a href="matches.html" class="nav-link">Possible Matches</a></li>
+          <li><a href="report-lost.html" class="nav-link">Report Lost</a></li>
+          <li><a href="report-found.html" class="nav-link">Report Found</a></li>
+          <li><a href="my-reports.html" class="nav-link">My Activity</a></li>
+          <li><a href="admin.html" class="nav-link">Admin Portal</a></li>
+        </ul>
+      </nav>
+
+      <div class="header-actions">
+        <div class="user-badge" title="Active Student Demo Profile">
+          <span class="user-badge-indicator"></span>
+          <span>Aarav (DSY-42)</span>
+        </div>
+        <button class="mobile-nav-toggle" aria-label="Toggle navigation menu">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <div class="container">
+      
+      <!-- Breadcrumb -->
+      <nav style="font-size:0.88rem; color:var(--color-struct-text-muted); margin-bottom:1.5rem;" aria-label="Breadcrumb">
+        <a href="../index.html">Home</a> &gt; <a href="browse.html">Catalog</a> &gt; <span>Item Details &amp; Claim</span>
+      </nav>
+
+      <!-- Main Dynamic Container -->
+      <div id="item-details-container">
+        <!-- Rendered by ClaimsController.initItemDetails() -->
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-bottom" style="border:none; padding:1.5rem 0;">
+      <div>&copy; 2026 Campus Lost-and-Found Matcher • MITAOE DSY SP Practical</div>
+      <button class="btn btn-secondary btn-sm action-reset-demo">Reset Demo Data</button>
+    </div>
+  </footer>
+
+  <script src="../js/storage.js"></script>
+  <script src="../js/matching.js"></script>
+  <script src="../js/reports.js"></script>
+  <script src="../js/claims.js"></script>
+  <script src="../js/admin.js"></script>
+  <script src="../js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      window.ClaimsController.initItemDetails();
+    });
+  </script>
+</body>
+</html>

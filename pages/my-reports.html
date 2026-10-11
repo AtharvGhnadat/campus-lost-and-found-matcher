@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Reports & Claims — Campus Lost-and-Found Matcher</title>
+  <meta name="description" content="Personal student dashboard to monitor reports logged and track submitted claim requests.">
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body>
+
+  <!-- Site Header -->
+  <header class="site-header">
+    <div class="container header-container">
+      <a href="../index.html" class="brand-wrapper">
+        <div class="brand-logo-frame">
+          <img src="../assets/icons/logo.svg" alt="Campus Emblem">
+        </div>
+        <div class="brand-info">
+          <span class="brand-title">Campus Lost &amp; Found</span>
+          <span class="brand-subtitle">MITAOE • Software Prototyping</span>
+        </div>
+      </a>
+
+      <nav class="main-nav">
+        <ul class="nav-links">
+          <li><a href="../index.html" class="nav-link">Home</a></li>
+          <li><a href="browse.html" class="nav-link">Browse Items</a></li>
+          <li><a href="matches.html" class="nav-link">Possible Matches</a></li>
+          <li><a href="report-lost.html" class="nav-link">Report Lost</a></li>
+          <li><a href="report-found.html" class="nav-link">Report Found</a></li>
+          <li><a href="my-reports.html" class="nav-link active">My Activity</a></li>
+          <li><a href="admin.html" class="nav-link">Admin Portal</a></li>
+        </ul>
+      </nav>
+
+      <div class="header-actions">
+        <div class="user-badge" title="Active Student Demo Profile">
+          <span class="user-badge-indicator"></span>
+          <span>Aarav (DSY-42)</span>
+        </div>
+        <button class="mobile-nav-toggle" aria-label="Toggle navigation menu">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <div class="container">
+      
+      <!-- Breadcrumb -->
+      <nav style="font-size:0.88rem; color:var(--color-struct-text-muted); margin-bottom:1.5rem;" aria-label="Breadcrumb">
+        <a href="../index.html">Home</a> &gt; <span>My Campus Activity</span>
+      </nav>
+
+      <!-- User Profile Header -->
+      <div style="background:#ffffff; border:2px solid var(--color-dominant-border); border-radius:var(--radius-lg); padding:1.75rem 2rem; margin-bottom:2rem; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1.25rem; box-shadow:var(--shadow-subtle);">
+        <div style="display:flex; align-items:center; gap:1.25rem;">
+          <div style="width:58px; height:58px; border-radius:50%; background:var(--color-struct-navy); color:#ffffff; display:flex; align-items:center; justify-content:center; font-size:1.45rem; font-weight:800; box-shadow:0 2px 8px rgba(9,30,54,0.2);">
+            AS
+          </div>
+          <div>
+            <h1 style="font-size:1.45rem; font-weight:800; color:var(--color-struct-navy); margin-bottom:0.2rem;">Aarav Sharma</h1>
+            <div style="font-size:0.9rem; color:var(--color-struct-text-muted);">
+              Roll No: <strong>DSY2026-42</strong> • Computer Engineering • <code>aarav.sharma@mitaoe.edu.in</code>
+            </div>
+          </div>
+        </div>
+        <div style="display:flex; gap:0.5rem;">
+          <a href="report-lost.html" class="btn btn-lost btn-sm">+ Report Lost</a>
+          <a href="report-found.html" class="btn btn-found btn-sm">+ Report Found</a>
+        </div>
+      </div>
+
+      <!-- Tab Navigation -->
+      <div style="display:flex; border-bottom:2px solid var(--color-dominant-border); margin-bottom:1.75rem;">
+        <button id="tab-btn-reports" class="btn btn-secondary" style="border:none; border-bottom:3px solid var(--color-accent); border-radius:0; padding:0.85rem 1.35rem; font-weight:800; color:var(--color-accent); background:transparent;" onclick="switchMyTab('reports')">
+          Items I've Reported
+        </button>
+        <button id="tab-btn-claims" class="btn btn-secondary" style="border:none; border-bottom:3px solid transparent; border-radius:0; padding:0.85rem 1.35rem; font-weight:600; color:var(--color-struct-text-muted); background:transparent;" onclick="switchMyTab('claims')">
+          Claims I've Submitted
+        </button>
+      </div>
+
+      <!-- Tab 1: My Reported Items -->
+      <section id="tab-reports-view">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.25rem;">
+          <h2 style="font-size:1.3rem; font-weight:800; color:var(--color-struct-navy);">My Reported Belongings</h2>
+          <span style="font-size:0.86rem; color:var(--color-struct-text-muted);">Click "Mark as Recovered" when your belonging has been returned</span>
+        </div>
+        <div id="my-reports-list">
+          <!-- Populated by ClaimsController -->
+        </div>
+      </section>
+
+      <!-- Tab 2: My Submitted Claims -->
+      <section id="tab-claims-view" style="display:none;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.25rem;">
+          <h2 style="font-size:1.3rem; font-weight:800; color:var(--color-struct-navy);">My Submitted Ownership Claims</h2>
+          <span style="font-size:0.86rem; color:var(--color-struct-text-muted);">Track administrative verification status</span>
+        </div>
+        <div id="my-claims-list">
+          <!-- Populated by ClaimsController -->
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-bottom" style="border:none; padding:1.5rem 0;">
+      <div>&copy; 2026 Campus Lost-and-Found Matcher • MITAOE DSY SP Practical</div>
+      <button class="btn btn-secondary btn-sm action-reset-demo">Reset Demo Data</button>
+    </div>
+  </footer>
+
+  <script src="../js/storage.js"></script>
+  <script src="../js/matching.js"></script>
+  <script src="../js/reports.js"></script>
+  <script src="../js/claims.js"></script>
+  <script src="../js/admin.js"></script>
+  <script src="../js/app.js"></script>
+  <script>
+    function switchMyTab(tab) {
+      const repView = document.getElementById('tab-reports-view');
+      const clmView = document.getElementById('tab-claims-view');
+      const repBtn = document.getElementById('tab-btn-reports');
+      const clmBtn = document.getElementById('tab-btn-claims');
+
+      if (tab === 'reports') {
+        repView.style.display = 'block';
+        clmView.style.display = 'none';
+        repBtn.style.borderBottomColor = 'var(--color-accent)';
+        repBtn.style.color = 'var(--color-accent)';
+        repBtn.style.fontWeight = '800';
+        clmBtn.style.borderBottomColor = 'transparent';
+        clmBtn.style.color = 'var(--color-struct-text-muted)';
+        clmBtn.style.fontWeight = '600';
+      } else {
+        repView.style.display = 'none';
+        clmView.style.display = 'block';
+        clmBtn.style.borderBottomColor = 'var(--color-accent)';
+        clmBtn.style.color = 'var(--color-accent)';
+        clmBtn.style.fontWeight = '800';
+        repBtn.style.borderBottomColor = 'transparent';
+        repBtn.style.color = 'var(--color-struct-text-muted)';
+        repBtn.style.fontWeight = '600';
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      window.ClaimsController.initMyReportsDashboard();
+    });
+  </script>
+</body>
+</html>

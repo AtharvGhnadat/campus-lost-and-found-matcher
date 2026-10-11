@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Possible Matches — Campus Lost-and-Found Matcher</title>
+  <meta name="description" content="Transparent, rule-based heuristic correlation between reported lost and found campus articles.">
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body>
+
+  <!-- Site Header -->
+  <header class="site-header">
+    <div class="container header-container">
+      <a href="../index.html" class="brand-wrapper">
+        <div class="brand-logo-frame">
+          <img src="../assets/icons/logo.svg" alt="Campus Emblem">
+        </div>
+        <div class="brand-info">
+          <span class="brand-title">Campus Lost &amp; Found</span>
+          <span class="brand-subtitle">MITAOE • Software Prototyping</span>
+        </div>
+      </a>
+
+      <nav class="main-nav">
+        <ul class="nav-links">
+          <li><a href="../index.html" class="nav-link">Home</a></li>
+          <li><a href="browse.html" class="nav-link">Browse Items</a></li>
+          <li><a href="matches.html" class="nav-link active">Possible Matches</a></li>
+          <li><a href="report-lost.html" class="nav-link">Report Lost</a></li>
+          <li><a href="report-found.html" class="nav-link">Report Found</a></li>
+          <li><a href="my-reports.html" class="nav-link">My Activity</a></li>
+          <li><a href="admin.html" class="nav-link">Admin Portal</a></li>
+        </ul>
+      </nav>
+
+      <div class="header-actions">
+        <div class="user-badge" title="Active Student Demo Profile">
+          <span class="user-badge-indicator"></span>
+          <span>Aarav (DSY-42)</span>
+        </div>
+        <button class="mobile-nav-toggle" aria-label="Toggle navigation menu">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <div class="container">
+      
+      <!-- Breadcrumb -->
+      <nav style="font-size:0.88rem; color:var(--color-struct-text-muted); margin-bottom:1.5rem;" aria-label="Breadcrumb">
+        <a href="../index.html">Home</a> &gt; <span>Possible Matches Engine</span>
+      </nav>
+
+      <div style="margin-bottom: 2rem;">
+        <h1 style="font-size: 1.85rem; color: var(--color-struct-navy); font-weight: 800; margin-bottom: 0.35rem;">
+          Algorithmic Match Finder
+        </h1>
+        <p style="font-size: 1rem; color: var(--color-struct-text-muted); max-width: 820px;">
+          The system compares all <strong>Lost Reports</strong> against <strong>Found Reports</strong> and calculates how likely they are to be the same item.
+        </p>
+      </div>
+
+      <!-- Mandatory Heuristic Notice -->
+      <div class="alert alert-warning" style="display: flex; align-items: flex-start; gap: 0.85rem;">
+        <div style="font-size: 1.5rem; line-height: 1;">⚠️</div>
+        <div>
+          <strong>Clear Verification Notice:</strong> A high match percentage means the details look very similar, <strong>not proof that the item is yours</strong>. You must still verify secret details with campus security or the finder before physical collection.
+        </div>
+      </div>
+
+      <!-- Match Filter Bar -->
+      <div class="filter-bar" style="margin-bottom: 2rem;">
+        <div class="filter-row">
+          <div style="flex: 1; min-width: 260px;">
+            <label for="match-lost-filter" style="display:block; font-size: 0.9rem; font-weight: 700; color: var(--color-struct-navy); margin-bottom: 0.35rem;">
+              Filter Candidates by Lost Item:
+            </label>
+            <select id="match-lost-filter" class="form-control" onchange="runMatchingEngine()">
+              <option value="all">Compare All Open Lost Items</option>
+            </select>
+          </div>
+          <div style="align-self: flex-end;">
+            <button class="btn btn-secondary btn-sm" onclick="resetMatchFilter()">Show All Candidates</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Algorithm Weights Info Card -->
+      <div style="background: #ffffff; border: 2px solid var(--color-dominant-border); border-radius: var(--radius-md); padding: 1.35rem; margin-bottom: 2rem;">
+        <h3 style="font-size: 0.95rem; font-weight: 800; color: var(--color-struct-navy); margin-bottom: 0.65rem; text-transform: uppercase; letter-spacing: 0.05em;">
+          How the 100-Point Score is Calculated:
+        </h3>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; font-size: 0.88rem;">
+          <div style="padding: 0.65rem 0.85rem; background: var(--color-dominant-subtle); border-radius: var(--radius-sm);">
+            <strong style="color: var(--color-struct-navy);">1. Same Category (35 pts)</strong>
+            <div style="color: var(--color-struct-text-muted); font-size: 0.82rem; margin-top: 2px;">E.g. Wallet vs Wallet</div>
+          </div>
+          <div style="padding: 0.65rem 0.85rem; background: var(--color-dominant-subtle); border-radius: var(--radius-sm);">
+            <strong style="color: var(--color-accent);">2. Words Overlap (30 pts)</strong>
+            <div style="color: var(--color-struct-text-muted); font-size: 0.82rem; margin-top: 2px;">Matching brand &amp; colors</div>
+          </div>
+          <div style="padding: 0.65rem 0.85rem; background: var(--color-dominant-subtle); border-radius: var(--radius-sm);">
+            <strong style="color: var(--color-action-found);">3. Location (20 pts)</strong>
+            <div style="color: var(--color-struct-text-muted); font-size: 0.82rem; margin-top: 2px;">Same campus building/zone</div>
+          </div>
+          <div style="padding: 0.65rem 0.85rem; background: var(--color-dominant-subtle); border-radius: var(--radius-sm);">
+            <strong style="color: var(--color-state-warning);">4. Date Proximity (15 pts)</strong>
+            <div style="color: var(--color-struct-text-muted); font-size: 0.82rem; margin-top: 2px;">Lost &amp; found on similar day</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Match Results Container -->
+      <div id="matches-container">
+        <!-- Rendered by JavaScript -->
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-bottom" style="border:none; padding:1.5rem 0;">
+      <div>&copy; 2026 Campus Lost-and-Found Matcher • MITAOE DSY SP Practical</div>
+      <button class="btn btn-secondary btn-sm action-reset-demo">Reset Demo Data</button>
+    </div>
+  </footer>
+
+  <script src="../js/storage.js"></script>
+  <script src="../js/matching.js"></script>
+  <script src="../js/reports.js"></script>
+  <script src="../js/claims.js"></script>
+  <script src="../js/admin.js"></script>
+  <script src="../js/app.js"></script>
+
+  <script>
+    function populateLostDropdown() {
+      const select = document.getElementById('match-lost-filter');
+      if (!select) return;
+
+      const reports = window.StorageService.getReports();
+      const lostReports = reports.filter(r => r.type === 'lost' && r.status !== 'Resolved');
+
+      select.innerHTML = '<option value="all">Compare All Open Lost Items</option>' + 
+        lostReports.map(item => `
+          <option value="${item.id}">[${item.id}] ${item.title} (${item.location})</option>
+        `).join('');
+
+      const urlParams = new URLSearchParams(window.location.search);
+      const targetLostId = urlParams.get('lostId');
+      if (targetLostId) {
+        select.value = targetLostId;
+      }
+    }
+
+    function resetMatchFilter() {
+      const select = document.getElementById('match-lost-filter');
+      if (select) select.value = 'all';
+      runMatchingEngine();
+    }
+
+    function runMatchingEngine() {
+      const container = document.getElementById('matches-container');
+      const select = document.getElementById('match-lost-filter');
+      if (!container) return;
+
+      const selectedId = select && select.value !== 'all' ? select.value : null;
+      const reports = window.StorageService.getReports();
+      const matchPairs = window.MatchingEngine.findMatches(reports, selectedId);
+
+      if (matchPairs.length === 0) {
+        container.innerHTML = `
+          <div class="empty-state">
+            <div style="font-size:3rem; margin-bottom:1rem;">🔍</div>
+            <h3>No Correlated Matches Found</h3>
+            <p>No found articles currently match the criteria for the selected lost reports (similarity threshold: 20%). Try adjusting report descriptions or report a new found item.</p>
+            <div style="display:flex; justify-content:center; gap:0.5rem;">
+              <a href="report-found.html" class="btn btn-found btn-sm">Report a Found Item</a>
+              <a href="browse.html" class="btn btn-secondary btn-sm">Browse All Catalog Items</a>
+            </div>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = matchPairs.map((candidate, idx) => {
+        const { lost, found, score, breakdown } = candidate;
+
+        let scoreClass = 'score-low';
+        let scoreLabel = 'Low Correlation';
+        if (score >= 75) {
+          scoreClass = 'score-high';
+          scoreLabel = 'High Potential Match (Very Likely)';
+        } else if (score >= 45) {
+          scoreClass = 'score-med';
+          scoreLabel = 'Moderate Similarity (Possible)';
+        }
+
+        return `
+          <div class="match-card">
+            <div class="match-header">
+              <div style="display:flex; align-items:center; gap:0.75rem; flex-wrap:wrap;">
+                <span class="match-score-badge ${scoreClass}">
+                  <span>${score}% Match Score</span>
+                </span>
+                <span style="font-size:0.95rem; font-weight:700; color:var(--color-struct-navy);">
+                  ${scoreLabel} • Candidate #${idx + 1}
+                </span>
+              </div>
+              <a href="item-details.html?id=${found.id}#claim" class="btn btn-primary btn-sm">
+                Inspect Found Item &amp; Submit Claim &rarr;
+              </a>
+            </div>
+
+            <!-- Comparison Grid -->
+            <div class="match-comparison-grid">
+              <!-- Lost Item Column -->
+              <div class="match-side-card" style="border-left: 5px solid var(--color-action-lost);">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.5rem;">
+                  <span class="badge badge-lost">Reported Lost</span>
+                  <span style="font-size:0.75rem; color:var(--color-struct-text-muted);">${lost.id}</span>
+                </div>
+                <h3 style="font-size:1.2rem; font-weight:700; margin-bottom:0.35rem; color:var(--color-struct-navy);">${lost.title}</h3>
+                <p style="font-size:0.9rem; color:var(--color-struct-text-body); margin-bottom:0.75rem; line-height:1.45;">${lost.description}</p>
+                <div style="font-size:0.85rem; color:var(--color-struct-text-body); display:flex; flex-direction:column; gap:0.3rem;">
+                  <div><strong>Category:</strong> ${lost.category}</div>
+                  <div><strong>Location:</strong> ${lost.location}</div>
+                  <div><strong>Date Lost:</strong> ${window.App.formatDate(lost.date)}</div>
+                </div>
+              </div>
+
+              <!-- Found Item Column -->
+              <div class="match-side-card" style="border-left: 5px solid var(--color-action-found);">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.5rem;">
+                  <span class="badge badge-found">Reported Found</span>
+                  <span style="font-size:0.75rem; color:var(--color-struct-text-muted);">${found.id}</span>
+                </div>
+                <h3 style="font-size:1.2rem; font-weight:700; margin-bottom:0.35rem; color:var(--color-struct-navy);">${found.title}</h3>
+                <p style="font-size:0.9rem; color:var(--color-struct-text-body); margin-bottom:0.75rem; line-height:1.45;">${found.description}</p>
+                <div style="font-size:0.85rem; color:var(--color-struct-text-body); display:flex; flex-direction:column; gap:0.3rem;">
+                  <div><strong>Category:</strong> ${found.category}</div>
+                  <div><strong>Location:</strong> ${found.location}</div>
+                  <div><strong>Date Found:</strong> ${window.App.formatDate(found.date)}</div>
+                  ${found.safeLocation ? `<div><strong>Safe Holding Spot:</strong> <span style="color:var(--color-action-found); font-weight:700;">${found.safeLocation}</span></div>` : ''}
+                </div>
+              </div>
+            </div>
+
+            <!-- Itemized Heuristic Breakdown -->
+            <div class="match-breakdown-box">
+              <div style="font-size: 0.85rem; font-weight:800; color:var(--color-struct-navy); text-transform:uppercase; margin-bottom:0.6rem; letter-spacing:0.04em;">
+                Detailed Score Breakdown (Why this matches)
+              </div>
+              <div class="breakdown-row">
+                <span>Category Match</span>
+                <span style="font-weight:700; color:var(--color-struct-navy);">+${breakdown.categoryScore} / 35 pts</span>
+              </div>
+              <div class="breakdown-row">
+                <span>Description Keyword Overlap</span>
+                <span style="font-weight:700; color:var(--color-accent);">+${breakdown.keywordScore} / 30 pts</span>
+              </div>
+              <div class="breakdown-row">
+                <span>Campus Location Proximity</span>
+                <span style="font-weight:700; color:var(--color-action-found);">+${breakdown.locationScore} / 20 pts</span>
+              </div>
+              <div class="breakdown-row">
+                <span>Date &amp; Timeline Proximity</span>
+                <span style="font-weight:700; color:var(--color-state-warning);">+${breakdown.dateScore} / 15 pts</span>
+              </div>
+              <div class="breakdown-row" style="color:var(--color-struct-navy); font-size:1.05rem;">
+                <span>Total Calculated Score</span>
+                <span>${breakdown.totalScore} / 100 pts</span>
+              </div>
+
+              <!-- Matched Reasons List -->
+              <div style="margin-top:0.85rem; font-size:0.85rem; color:var(--color-struct-text-body);">
+                <div style="font-weight:700; margin-bottom:0.3rem;">Identified Similarity Factors:</div>
+                <ul style="padding-left:1.25rem; display:flex; flex-direction:column; gap:0.25rem;">
+                  ${breakdown.reasons.map(r => `<li>${r}</li>`).join('')}
+                </ul>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      populateLostDropdown();
+      runMatchingEngine();
+    });
+  </script>
+</body>
+</html>
