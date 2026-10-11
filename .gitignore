@@ -13,3 +13,7 @@ desktop.ini
 node_modules/
 .npm/
 package-lock.json
+
+# Archive files
+*.zip
+*.tar.gz
